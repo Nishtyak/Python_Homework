@@ -86,6 +86,21 @@ def delete_entry(word):
                 f_n_writer = DictWriter(f_n, fieldnames=['Имя', 'Фамилия', 'Номер'])
                 f_n_writer.writerow(el)
 
+def change_entry(word, new_word):
+    phone_book = []
+    with open('phone.csv', encoding='utf-8') as f_n:
+        f_n_reader = DictReader(f_n)
+        phone_book = list(f_n_reader)
+    create_file()
+    with open('phone.csv', 'a', encoding='utf-8') as f_n:
+        for el in phone_book:
+            if el['Имя'] == word:
+                el['Имя'] = new_word
+            elif el['Фамилия'] == word:
+                el['Фамилия'] = new_word
+            f_n_writer = DictWriter(f_n, fieldnames=['Имя', 'Фамилия', 'Номер'])
+            f_n_writer.writerow(el)
+
 
 def main(): #выполняет функцию файлового ???
     while 1: #или while True
@@ -110,5 +125,12 @@ def main(): #выполняет функцию файлового ???
             else:
                 word = input("Введите имя или фамилию для удаления записи: ")
                 delete_entry(word)
-
+        elif command == 'c':
+            if not exists('phone.csv'):
+                print('Файл не создан!')
+                break
+            else:
+                word = input("Введите имя или фамилию для изменения записи: ")
+                new_word = input("Введите новое значение: ")
+                change_entry(word, new_word)
 main()
