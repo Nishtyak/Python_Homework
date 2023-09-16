@@ -101,6 +101,16 @@ def change_entry(word, new_word):
             f_n_writer = DictWriter(f_n, fieldnames=['Имя', 'Фамилия', 'Номер'])
             f_n_writer.writerow(el)
 
+def search_entry(word):
+    phone_book = []
+    with open('phone.csv', encoding='utf-8') as f_n:
+        f_n_reader = DictReader(f_n)
+        phone_book = list(f_n_reader)
+        for el in phone_book:
+            if el['Имя'] == word or el['Фамилия'] == word:
+                print("Искомая запись: ")
+                print(*el.values())
+
 
 def main(): #выполняет функцию файлового ???
     while 1: #или while True
@@ -133,4 +143,11 @@ def main(): #выполняет функцию файлового ???
                 word = input("Введите имя или фамилию для изменения записи: ")
                 new_word = input("Введите новое значение: ")
                 change_entry(word, new_word)
+        elif command == 's':
+            if not exists('phone.csv'):
+                print('Файл не создан!')
+                break
+            else:
+                word = input("Введите имя или фамилию для поиска записи: ")
+                search_entry(word)
 main()
